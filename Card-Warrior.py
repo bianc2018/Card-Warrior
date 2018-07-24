@@ -1,0 +1,4 @@
+#-* -coding:GBK -* -
+#жпндв╒ймдё╟Е
+class Game:
+    def __init__():
