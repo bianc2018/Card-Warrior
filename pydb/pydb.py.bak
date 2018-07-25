@@ -7,7 +7,6 @@ class Pydb:
     def __init__(self):
         self.db = None
         self.kong = 5
-
     def Load(self,path):
         if os.path.exists(path) is False:
             choose = input(f"库 {path} 不存在,是否创建？Y/N")
@@ -16,19 +15,12 @@ class Pydb:
             else:
                 return False
         self.db = shelve.open(path)
-        self.path = path
         return True
-
     def Init_db(self,path):
         self.db = shelve.open(path)
         self.db['version'] = version
         self.db['table'] = {'table':['table-name','cols-name']} # table-name : [value] 
-        self.path = path
-
     def CreateTable(self,TableName,KeyList):
-        if self.db==None:
-            print("请输入 LOAD path 打开数据库")
-            return False
         AllTable = self.db['table']
         table = {}
         if TableName not in AllTable.keys():
@@ -40,9 +32,6 @@ class Pydb:
             return False
 
     def DelTable(self,TableName):
-        if self.db==None:
-            print("请输入 LOAD path 打开数据库")
-            return False
         AllTable = self.db['table']
         table = {}
         if TableName not in AllTable.keys():
@@ -54,9 +43,6 @@ class Pydb:
             return False
 
     def AddRow(self,TableName,KeyValue):
-        if self.db==None:
-            print("请输入 LOAD path 打开数据库")
-            return False
         AllTable = self.db['table']
         table = {}
         if TableName in AllTable.keys():
@@ -73,9 +59,6 @@ class Pydb:
         return True
 
     def DelRow(self,TableName,Key):
-        if self.db==None:
-            print("请输入 LOAD path 打开数据库")
-            return False
         AllTable = self.db['table']
         table = {}
         if TableName in AllTable.keys():
@@ -92,20 +75,10 @@ class Pydb:
         return True
     
     def Show(self,TableName):
-        if self.db==None:
-            print("请输入 LOAD path 打开数据库")
-            return False
         AllTable = self.db['table']
         table = {}
         if TableName in AllTable.keys():
             table = self.db[TableName]
-            keylist = AllTable[TableName]
-            #表头
-            line = TableName.center(self.kong,' ')
-            for kl in keylist:
-                line+=kl.center(self.kong,' ')
-            print(line)
-            #表项
             for key in table:
                 line = Key.center(self.kong,' ')
                 KeyValue = table[Key]
@@ -116,18 +89,6 @@ class Pydb:
             print(f"表 {TableName} 不存在！")
             return False
         return True
-    
-    def commit(self):
-        if self.db==None:
-            print("请输入 LOAD path 打开数据库")
-            return False
 
-        self.db.close()
-        self.db = shelve.open(self.path)
-        return 
-
-    def quit(self):
-        self.db = None
-        return True
 if __name__ == '__main__':
     db = Pydb()
